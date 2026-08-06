@@ -425,6 +425,11 @@
         <maven-nexus-staging-plugin.version>1.6.8</maven-nexus-staging-plugin.version>
         <fastjson.version>1.2.75</fastjson.version>
         <spring-security-biz.version>1.0.9-SNAPSHOT</spring-security-biz.version>
+                <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
+                <slf4j.version>2.0.18</slf4j.version>
+                <spring-security-otp-config.version>1.0.0</spring-security-otp-config.version>
+                <spring-security-otp-core.version>1.0.0</spring-security-otp-core.version>
+                <spring-security-otp-web.version>1.0.0</spring-security-otp-web.version>
     </properties>
 
     <dependencyManagement>
@@ -454,7 +459,39 @@
                 <version>${spring-security-biz.version}</version>
             </dependency>
 
-        </dependencies>
+                <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${javax.servlet-api.version}</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.oxerr.spring.security</groupId>
+            <artifactId>spring-security-otp-core</artifactId>
+            <version>${spring-security-otp-core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.oxerr.spring.security</groupId>
+            <artifactId>spring-security-otp-web</artifactId>
+            <version>${spring-security-otp-web.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.oxerr.spring.security</groupId>
+            <artifactId>spring-security-otp-config</artifactId>
+            <version>${spring-security-otp-config.version}</version>
+        </dependency>
+</dependencies>
     </dependencyManagement>
 
     <dependencies>
@@ -464,7 +501,7 @@
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
-            <version>4.0.1</version>
+            <version>${javax.servlet-api.version}</version>
             <optional>true</optional>
         </dependency>
 
@@ -472,14 +509,14 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>2.0.13</version>
+            <version>${slf4j.version}</version>
         </dependency>
         
         <!-- For Slf4j Simple -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
-            <version>2.0.13</version>
+            <version>${slf4j.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -545,21 +582,21 @@
         <dependency>
             <groupId>org.oxerr.spring.security</groupId>
             <artifactId>spring-security-otp-core</artifactId>
-            <version>1.0.0</version>
+            <version>${spring-security-otp-core.version}</version>
         </dependency>
         
         <!-- https://mvnrepository.com/artifact/org.oxerr.spring.security/spring-security-otp-web -->
         <dependency>
             <groupId>org.oxerr.spring.security</groupId>
             <artifactId>spring-security-otp-web</artifactId>
-            <version>1.0.0</version>
+            <version>${spring-security-otp-web.version}</version>
         </dependency>
         
         <!-- https://mvnrepository.com/artifact/org.oxerr.spring.security/spring-security-otp-config -->
         <dependency>
             <groupId>org.oxerr.spring.security</groupId>
             <artifactId>spring-security-otp-config</artifactId>
-            <version>1.0.0</version>
+            <version>${spring-security-otp-config.version}</version>
         </dependency>
 
     </dependencies>
