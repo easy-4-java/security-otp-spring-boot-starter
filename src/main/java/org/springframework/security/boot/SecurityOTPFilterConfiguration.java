@@ -7,11 +7,11 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.biz.web.servlet.i18n.LocaleContextFilter;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityFilterAutoConfiguration;
+import org.springframework.boot.security.autoconfigure.web.servlet.ServletWebSecurityAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.context.properties.PropertyMapper;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.boot.biz.authentication.AuthenticationListener;
@@ -33,14 +33,14 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Configuration
-@AutoConfigureBefore({ SecurityFilterAutoConfiguration.class })
+@AutoConfigureBefore({ ServletWebSecurityAutoConfiguration.class })
 @EnableConfigurationProperties({ SecurityOTPProperties.class })
 public class SecurityOTPFilterConfiguration {
     
     @Configuration
     @ConditionalOnProperty(prefix = SecurityOTPProperties.PREFIX, value = "enabled", havingValue = "true")
    	@EnableConfigurationProperties({ SecurityOTPProperties.class, SecurityBizProperties.class })
-    @Order(SecurityProperties.DEFAULT_FILTER_ORDER + 4)
+    @Order(Ordered.HIGHEST_PRECEDENCE + 4)
    	static class OTPWebSecurityConfigurerAdapter extends WebSecurityBizConfigurerAdapter {
     	
     	private final SecurityOTPAuthcProperties authcProperties;
@@ -94,7 +94,7 @@ public class SecurityOTPFilterConfiguration {
    			/**
 			 * 批量设置参数
 			 */
-			PropertyMapper map = PropertyMapper.get().alwaysApplyingWhenNonNull();
+			PropertyMapper map = PropertyMapper.get();
 			
 			map.from(getSessionMgtProperties().isAllowSessionCreation()).to(authenticationFilter::setAllowSessionCreation);
 			
@@ -115,13 +115,10 @@ public class SecurityOTPFilterConfiguration {
    	    @Override
 		public void configure(HttpSecurity http) throws Exception {
    	    	
-   	    	http.antMatcher(authcProperties.getPathPattern())
-				.exceptionHandling()
-	        	.authenticationEntryPoint(authenticationEntryPoint)
-	        	.and()
-	        	.httpBasic()
-	        	.disable()
-	        	.addFilterBefore(localeContextFilter, UsernamePasswordAuthenticationFilter.class)
+		http.securityMatcher(authcProperties.getPathPattern())
+				.exceptionHandling(config -> config.authenticationEntryPoint(authenticationEntryPoint))
+				.httpBasic(config -> config.disable())
+				.addFilterBefore(localeContextFilter, UsernamePasswordAuthenticationFilter.class)
    	    		.addFilterBefore(authenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
 
    	    	super.configure(http, authcProperties.getCors());

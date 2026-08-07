@@ -28,7 +28,7 @@ public class OTPAuthenticationToken extends AbstractAuthenticationToken {
     private Object credentials;
     
     public OTPAuthenticationToken(Object credentials) {
-        super(null);
+        super((Collection<? extends GrantedAuthority>) null);
         this.credentials = credentials;
         setAuthenticated(false);
     }

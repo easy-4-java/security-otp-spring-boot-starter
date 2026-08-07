@@ -36,6 +36,14 @@ public class SecurityOTPAuthcProperties extends SecurityAuthcProperties {
 	
 	/** the code parameter name. Defaults to "otp". */
     private String otpParameter = OTPAuthenticationProcessingFilter.SPRING_SECURITY_FORM_CODE_KEY;
+
+	public String getOtpParameter() {
+		return otpParameter;
+	}
+
+	public void setOtpParameter(String otpParameter) {
+		this.otpParameter = otpParameter;
+	}
 	
 	@NestedConfigurationProperty
 	private SecurityRedirectProperties redirect = new SecurityRedirectProperties();

@@ -29,7 +29,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 import org.springframework.util.Assert;
 
 public class OTPAuthenticationFilter
@@ -40,7 +40,7 @@ public class OTPAuthenticationFilter
 	private String oneTimePasswordParameter = SPRING_SECURITY_ONE_TIME_PASSWORD_KEY;
 
 	public OTPAuthenticationFilter() {
-		super(new AntPathRequestMatcher("/**", ""));
+		super(PathPatternRequestMatcher.pathPattern("/**"));
 	}
 
 	@Override
